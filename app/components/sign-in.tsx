@@ -1,6 +1,6 @@
 import { signIn } from "@/auth"
 
-export function SignIn() {
+export default function SignIn() {
   async function submit() {
     "use server"
     await signIn("github", { redirectTo: "/" })

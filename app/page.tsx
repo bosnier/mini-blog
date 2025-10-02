@@ -1,28 +1,29 @@
-import Image from "next/image"
-import { SignIn } from "./components/sign-in"
-import SignOut from "./components/sign-out"
-import { auth } from "@/auth"
+import Post, { PostType } from "@/app/components/post"
+import { prisma } from "@/prisma"
 
 export default async function Home() {
-  const session = await auth()
+  console.log(await prisma.user.findMany())
+
+  const posts: PostType[] = [
+    {
+      id: "0",
+      title: "Lorem ipsum dolor sit amet.",
+      content: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, maxime!",
+      author: { id: "0", name: "Bobsner" },
+    },
+    {
+      id: "1",
+      title: "Some other post.",
+      content: "Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные.",
+      author: { id: "0", name: "Bobsner" },
+    },
+  ]
 
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">{session?.user ? <SignOut /> : <SignIn />}</div>
-      </main>
-    </div>
+    <main className="p-2 flex flex-col gap-2 max-w-3xl mx-auto w-full">
+      <button className="bg-stone-700 px-2 py-1 rounded-md max-w-48">Write new post</button>
+      <Post post={posts[0]} />
+      <Post post={posts[1]} />
+    </main>
   )
 }
