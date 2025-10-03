@@ -1,4 +1,5 @@
 import { signIn } from "@/auth"
+import { Button } from "@/components/ui/button"
 
 export default function SignIn() {
   async function submit() {
@@ -8,9 +9,9 @@ export default function SignIn() {
 
   return (
     <form action={submit}>
-      <button type="submit" className="px-3 py-2 rounded-md bg-stone-900 cursor-pointer">
+      <Button type="submit" variant="secondary">
         Sign in using GitHub
-      </button>
+      </Button>
     </form>
   )
 }

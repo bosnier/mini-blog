@@ -1,4 +1,5 @@
 import { signOut } from "@/auth"
+import { Button } from "@/components/ui/button"
 
 export default function SignOut() {
   async function submit() {
@@ -8,9 +9,9 @@ export default function SignOut() {
 
   return (
     <form action={submit}>
-      <button type="submit" className="px-3 py-2 rounded-md bg-stone-900 cursor-pointer">
+      <Button type="submit" variant="secondary">
         Signout
-      </button>
+      </Button>
     </form>
   )
 }
