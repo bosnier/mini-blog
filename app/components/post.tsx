@@ -21,7 +21,7 @@ export default function Post({ post }: { post: PostType }) {
       </Link>
       <p className="text-sm text-muted-foreground line-clamp-4">{post.content}</p>
       <span className="text-sm text-muted-foreground">
-        <Link href={"/profile/" + post.author.id} className="text-sm text-foreground">
+        <Link href={"/profile/" + post.author.id} className="text-sm text-foreground font-medium">
           {post.author.name}
         </Link>
         , {post.createdAt.toLocaleString()}
