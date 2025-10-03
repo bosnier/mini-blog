@@ -2,6 +2,7 @@ import Post, { PostType } from "@/app/components/post"
 import { Button } from "@/components/ui/button"
 import { prisma } from "@/prisma"
 import { Plus } from "lucide-react"
+import Link from "next/link"
 
 export default async function Home() {
   console.log(await prisma.user.findMany())
@@ -15,9 +16,11 @@ export default async function Home() {
         <Post post={post} key={post.id} />
       ))}
       <div className="flex gap-1 mt-2">
-        <Button variant="default" className="grow">
+        <Link href="/posts" className="grow">
+          <Button variant="default" className="w-full">
           Read more
         </Button>
+        </Link>
         <Button variant="outline" className="self-start">
           <Plus />
           Write new post
