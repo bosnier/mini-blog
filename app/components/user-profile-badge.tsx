@@ -14,7 +14,6 @@ export default function UserProfileBadge({ session, className }: { session: Sess
           <AvatarImage src={user.image} />
         </Avatar>
       )}
-      {user.name}
     </Link>
   )
 }
