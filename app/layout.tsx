@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         className={`${inter.variable} ${jetbrainsMono.variable} ${brygadaSerif.variable} antialiased min-h-dvh flex flex-col`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme>
-          <header className="flex items-center p-2 gap-2 sticky top-0 justify-end">
+          <header className="flex items-center p-2 gap-2 sticky top-0 justify-end backdrop-blur-xs bg-background/80">
             {session && <UserProfileBadge session={session} />}
             {session?.user ? <SignOut /> : <SignIn />}
             <ThemeToggle />
