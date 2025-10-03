@@ -4,6 +4,7 @@ import "@/app/globals.css"
 import { auth } from "@/auth"
 import SignOut from "@/app/components/sign-out"
 import SignIn from "@/app/components/sign-in"
+import { ThemeProvider } from "@/app/components/theme-provider"
 
 const inter = Inter({
   variable: "--font-inter-sans",
@@ -24,13 +25,15 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const session = await auth()
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-dvh flex flex-col`}>
-        <header className="flex items-center p-2 gap-2 sticky top-0 justify-end">
-          {session?.user && session.user.name}
-          {session?.user ? <SignOut /> : <SignIn />}
-        </header>
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme>
+          <header className="flex items-center p-2 gap-2 sticky top-0 justify-end">
+            {session?.user && session.user.name}
+            {session?.user ? <SignOut /> : <SignIn />}
+          </header>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
