@@ -6,6 +6,7 @@ import SignOut from "@/app/components/sign-out"
 import SignIn from "@/app/components/sign-in"
 import { ThemeProvider } from "@/app/components/theme-provider"
 import { ThemeToggle } from "@/app/components/theme-toggle"
+import UserProfileBadge from "@/app/components/user-profile-badge"
 
 const inter = Inter({
   variable: "--font-inter-sans",
@@ -29,8 +30,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-dvh flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme>
-          <header className="flex items-center p-2 gap-2 sticky top-0 justify-end">
-            {session?.user && session.user.name}
+          <header className="flex items-center p-2 gap-2 sticky top-0">
+            {session && <UserProfileBadge session={session} className="me-auto" />}
             {session?.user ? <SignOut /> : <SignIn />}
             <ThemeToggle />
           </header>
