@@ -5,6 +5,7 @@ import { auth } from "@/auth"
 import SignOut from "@/app/components/sign-out"
 import SignIn from "@/app/components/sign-in"
 import { ThemeProvider } from "@/app/components/theme-provider"
+import { ThemeToggle } from "@/app/components/theme-toggle"
 
 const inter = Inter({
   variable: "--font-inter-sans",
@@ -31,6 +32,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <header className="flex items-center p-2 gap-2 sticky top-0 justify-end">
             {session?.user && session.user.name}
             {session?.user ? <SignOut /> : <SignIn />}
+            <ThemeToggle />
           </header>
           {children}
         </ThemeProvider>
