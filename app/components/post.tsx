@@ -5,28 +5,26 @@ export type PostType = {
   title: string
   content: string
   author: User
-  // TODO
-  createdAt?: string
+  createdAt: Date
 }
 
 export type User = {
   id: string
-  name: string
+  name: string | null
 }
 
 export default function Post({ post }: { post: PostType }) {
   return (
-    <section className="flex flex-col px-3 py-2 gap-1 items-start">
-      <Link href={"/posts/" + post.id} className="text-lg">
+    <section className="flex flex-col gap-1 items-start">
+      <Link href={"/posts/" + post.id} className="text-lg font-medium line-clamp-2 leading-tight">
         {post.title}
       </Link>
-      <p className="text-sm text-stone-300">{post.content}</p>
-      <span className="text-sm text-stone-400">
-        ©
-        <Link href={"/profile/" + post.author.id} className="text-sm text-indigo-300">
+      <p className="text-sm text-muted-foreground line-clamp-4">{post.content}</p>
+      <span className="text-sm text-muted-foreground">
+        <Link href={"/profile/" + post.author.id} className="text-sm text-foreground">
           {post.author.name}
         </Link>
-        , {new Date().toDateString()}
+        , {post.createdAt.toLocaleString()}
       </span>
     </section>
   )

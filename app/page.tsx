@@ -1,29 +1,28 @@
 import Post, { PostType } from "@/app/components/post"
+import { Button } from "@/components/ui/button"
 import { prisma } from "@/prisma"
+import { Plus } from "lucide-react"
 
 export default async function Home() {
   console.log(await prisma.user.findMany())
 
-  const posts: PostType[] = [
-    {
-      id: "0",
-      title: "Lorem ipsum dolor sit amet.",
-      content: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, maxime!",
-      author: { id: "0", name: "Bobsner" },
-    },
-    {
-      id: "1",
-      title: "Some other post.",
-      content: "Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные.",
-      author: { id: "0", name: "Bobsner" },
-    },
-  ]
+  const posts = await prisma.post.findMany({ where: { published: true }, take: 4, include: { author: true } })
 
   return (
-    <main className="p-2 flex flex-col gap-2 max-w-3xl mx-auto w-full">
-      <button className="bg-stone-700 px-2 py-1 rounded-md max-w-48">Write new post</button>
-      <Post post={posts[0]} />
-      <Post post={posts[1]} />
+    <main className="p-2 flex flex-col gap-5 max-w-3xl mx-auto w-full">
+      <h1 className="text-2xl font-bold font-serif">Latest posts</h1>
+      {posts.map((post) => (
+        <Post post={post} key={post.id} />
+      ))}
+      <div className="flex gap-1 mt-2">
+        <Button variant="default" className="grow">
+          Read more
+        </Button>
+        <Button variant="outline" className="self-start">
+          <Plus />
+          Write new post
+        </Button>
+      </div>
     </main>
   )
 }
