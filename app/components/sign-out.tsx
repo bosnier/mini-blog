@@ -1,5 +1,6 @@
 import { signOut } from "@/auth"
 import { Button } from "@/components/ui/button"
+import { LogOut } from "lucide-react"
 
 export default function SignOut() {
   async function submit() {
@@ -10,7 +11,8 @@ export default function SignOut() {
   return (
     <form action={submit}>
       <Button type="submit" variant="secondary">
-        Signout
+        <LogOut />
+        Logout
       </Button>
     </form>
   )
