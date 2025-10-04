@@ -37,7 +37,25 @@ async function main() {
       },
     },
   })
-  console.log({ alice, bob })
+  const eve = await prisma.user.upsert({
+    where: { email: "eve@prisma.io" },
+    update: {},
+    create: {
+      email: "eve@prisma.io",
+      name: "Eve",
+      posts: {
+        create: [
+          { title: sentence(), content: article(20) },
+          { title: sentence(), content: article(1) },
+          { title: sentence(), content: article(2) },
+          { title: sentence(), content: article(5) },
+          { title: sentence(), content: article(5) },
+          { title: sentence(), content: article(5) },
+        ],
+      },
+    },
+  })
+  console.log({ alice, bob, eve })
 }
 main()
   .then(async () => {
