@@ -7,6 +7,9 @@ import SignIn from "@/app/components/sign-in"
 import { ThemeProvider } from "@/app/components/theme-provider"
 import { ThemeToggle } from "@/app/components/theme-toggle"
 import UserProfileBadge from "@/app/components/user-profile-badge"
+import { Button } from "@/components/ui/button"
+import { Home } from "lucide-react"
+import Link from "next/link"
 
 const inter = Inter({
   variable: "--font-inter-sans",
@@ -38,6 +41,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme>
           <header className="flex items-center p-2 gap-2 sticky top-0 justify-end backdrop-blur-xs bg-background/80">
+            <Link href="/" className="me-auto">
+              <Button variant="secondary" size="icon">
+                <Home />
+              </Button>
+            </Link>
             {session && <UserProfileBadge session={session} />}
             {session?.user ? <SignOut /> : <SignIn />}
             <ThemeToggle />
