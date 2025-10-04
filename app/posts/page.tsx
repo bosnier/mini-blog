@@ -8,7 +8,7 @@ export default async function Page(props: { searchParams?: Promise<PostsSearchPa
   const { q, author, sort } = parsePostsFilters(searchParams)
 
   const posts = await prisma.post.findMany({
-    where: { published: true, title: { contains: q }, author: { id: author } },
+    where: { published: true, title: { contains: q, mode: "insensitive" }, author: { id: author } },
     take: 10,
     include: { author: true },
     orderBy: { createdAt: sort === "older" ? "asc" : "desc" },
