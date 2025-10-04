@@ -4,7 +4,7 @@ export type PostType = {
   id: string
   title: string
   content: string
-  author: User
+  author?: User
   createdAt: Date
 }
 
@@ -21,10 +21,15 @@ export default function Post({ post }: { post: PostType }) {
       </Link>
       <p className="text-sm text-muted-foreground line-clamp-4">{post.content}</p>
       <span className="text-sm text-muted-foreground">
-        <Link href={"/profile/" + post.author.id} className="text-sm text-foreground font-medium">
-          {post.author.name}
-        </Link>
-        , {post.createdAt.toLocaleString()}
+        {post.author && (
+          <>
+            <Link href={"/profile/" + post.author.id} className="text-sm text-foreground font-medium">
+              {post.author.name}
+            </Link>
+            ,&nbsp;
+          </>
+        )}
+        {post.createdAt.toLocaleString()}
       </span>
     </section>
   )
