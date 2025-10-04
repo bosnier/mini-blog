@@ -13,6 +13,7 @@ export default async function Page(props: { searchParams?: Promise<PostsSearchPa
     include: { author: true },
     orderBy: { createdAt: sort === "older" ? "asc" : "desc" },
   })
+  const truncatedPosts = posts.map((post) => ({ ...post, content: post.content.slice(0, 500) }))
 
   return (
     <main className="px-4 flex flex-col gap-5 max-w-3xl mx-auto w-full pb-8">
@@ -20,7 +21,7 @@ export default async function Page(props: { searchParams?: Promise<PostsSearchPa
 
       <PostsFilters filterAuthor />
 
-      {posts.map((post) => (
+      {truncatedPosts.map((post) => (
         <Post post={post} key={post.id} />
       ))}
     </main>

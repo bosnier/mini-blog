@@ -23,6 +23,7 @@ export default async function Page(props: {
     where: { author: { id }, title: { contains: q, mode: "insensitive" } },
     orderBy: { createdAt: sort === "older" ? "asc" : "desc" },
   })
+  const truncatedPosts = posts.map((post) => ({ ...post, content: post.content.slice(0, 500) }))
 
   return (
     <main className="px-4 flex flex-col gap-5 max-w-3xl mx-auto w-full pb-8">
@@ -38,8 +39,8 @@ export default async function Page(props: {
 
       <PostsFilters />
 
-      {posts.length ? (
-        posts.map((post) => <Post post={post} key={post.id} />)
+      {truncatedPosts.length ? (
+        truncatedPosts.map((post) => <Post post={post} key={post.id} />)
       ) : (
         <div className="flex items-center gap-2 text-muted-foreground justify-center">
           <NotepadText />
