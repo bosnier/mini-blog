@@ -24,12 +24,13 @@ export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean 
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 flex-wrap">
       <Input
         type="search"
-        placeholder="Find post..."
+        placeholder="Find post by title..."
         defaultValue={q || ""}
         onChange={(e) => updateURL({ q: e.target.value })}
+        className="w-auto grow min-w-64"
       />
       {filterAuthor && (
         <Popover>
