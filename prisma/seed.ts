@@ -16,6 +16,10 @@ async function main() {
           { title: sentence(), content: article(15), published: false },
           { title: sentence(), content: article(1), published: false },
           { title: sentence(), content: article(2), published: false },
+          { title: sentence(), content: article(3), createdAt: new Date(2025, 7, 18) },
+          { title: sentence(), content: article(2), createdAt: new Date(2024, 5, 5) },
+          { title: sentence(), content: article(4), createdAt: new Date(2024, 6, 7) },
+          { title: sentence(), content: article(5), createdAt: new Date(2023, 4, 10) },
         ],
       },
     },
@@ -46,7 +50,11 @@ async function main() {
       posts: {
         create: [
           { title: sentence(), content: article(20) },
-          { title: sentence(), content: article(1) },
+          { title: sentence(), content: article(1), createdAt: new Date(2024, 2, 9) },
+          { title: sentence(), content: article(3), createdAt: new Date(2025, 5, 18) },
+          { title: sentence(), content: article(2), createdAt: new Date(2024, 3, 5) },
+          { title: sentence(), content: article(4), createdAt: new Date(2024, 4, 7) },
+          { title: sentence(), content: article(5), createdAt: new Date(2023, 0, 10) },
           { title: sentence(), content: article(2) },
           { title: sentence(), content: article(5) },
           { title: sentence(), content: article(5) },
