@@ -5,7 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { parsePostsFilters, PostsSearchParams } from "@/app/lib/posts-filters-utils"
 import { AsyncSelect } from "@/components/ui/async-select"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useDebounce } from "../lib/hooks/use-debounce"
 
 export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean }) {
   const router = useRouter()
@@ -14,6 +15,10 @@ export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean 
 
   const { q, author, sort } = parsePostsFilters(searchParams)
 
+  const [query, setQuery] = useState(q || "")
+  const debouncedQuery = useDebounce(query, 300)
+  useEffect(() => updateURL({ q: debouncedQuery }), [debouncedQuery])
+
   const [selectedAuthor, setSelectedAuthor] = useState(author || "")
 
   function setAuthor(authorId: string) {
@@ -21,7 +26,6 @@ export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean 
     updateURL({ author: authorId })
   }
 
-  // TODO add debounce
   function updateURL(newParams: PostsSearchParams) {
     const params = new URLSearchParams(searchParams)
     Object.entries(newParams).forEach(([name, value]) => params.set(name, value))
@@ -34,15 +38,17 @@ export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean 
         type="search"
         placeholder="Find post by title..."
         defaultValue={q || ""}
-        onChange={(e) => updateURL({ q: e.target.value })}
+        onChange={(e) => setQuery(e.target.value)}
         className="w-auto grow min-w-64"
       />
       {filterAuthor && (
         <AsyncSelect
-          fetcher={async (query?: string) =>
-            fetch("/api/users/search?q=" + query)
-              .then((r) => r.json())
-              .then((r) => r.users as { id: string; name: string }[])
+          fetcher={
+            async (query?: string) =>
+              fetch("/api/users/search?q=" + query)
+                .then((r) => r.json())
+                .then((r) => r.users as { id: string; name: string }[])
+            // TODO catch errors?
           }
           renderOption={(user) => user.name}
           getOptionValue={(user) => user.id}
