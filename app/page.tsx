@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export default async function Home() {
   // TODO isr
-  
+
   const posts = await prisma.post.findMany({
     where: { published: true },
     take: 4,
@@ -15,7 +15,7 @@ export default async function Home() {
   })
 
   return (
-    <main className="px-4 flex flex-col gap-5 max-w-3xl mx-auto w-full">
+    <div className="px-4 flex flex-col gap-5">
       <h1 className="text-2xl font-bold font-serif">Latest posts</h1>
       {posts.map((post) => (
         <Post post={post} key={post.id} />
@@ -31,6 +31,6 @@ export default async function Home() {
           Write new post
         </Button>
       </div>
-    </main>
+    </div>
   )
 }

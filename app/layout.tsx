@@ -36,22 +36,22 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${jetbrainsMono.variable} ${brygadaSerif.variable} antialiased min-h-dvh flex flex-col`}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme>
-          <header className="flex items-center p-2 gap-2 sticky top-0 justify-end backdrop-blur-xs bg-background/80">
-            <Link href="/" className="me-auto">
-              <Button variant="secondary" size="icon">
-                <Home />
-              </Button>
-            </Link>
-            {session && <UserProfileBadge session={session} />}
-            {session?.user ? <SignOut /> : <SignIn />}
-            <ThemeToggle />
-          </header>
-          {children}
-        </ThemeProvider>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${brygadaSerif.variable} antialiased min-h-dvh`}>
+        <main className="flex flex-col max-w-3xl mx-auto pb-4">
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme>
+            <header className="flex items-center p-2 gap-2 sticky top-0 mb-2 justify-end backdrop-blur-xs bg-background/80">
+              <Link href="/" className="me-auto">
+                <Button variant="secondary" size="icon">
+                  <Home />
+                </Button>
+              </Link>
+              {session && <UserProfileBadge session={session} />}
+              {session?.user ? <SignOut /> : <SignIn />}
+              <ThemeToggle />
+            </header>
+            {children}
+          </ThemeProvider>
+        </main>
       </body>
     </html>
   )

@@ -26,7 +26,7 @@ export default async function Page(props: {
   const truncatedPosts = posts.map((post) => ({ ...post, content: post.content.slice(0, 500) }))
 
   return (
-    <main className="px-4 flex flex-col gap-5 max-w-3xl mx-auto w-full pb-8">
+    <div className="px-4 flex flex-col gap-5">
       <div className="flex gap-3 items-center">
         <Avatar className="size-16 -z-10">
           {user.image && <AvatarImage src={user.image} />}
@@ -47,6 +47,6 @@ export default async function Page(props: {
           No posts
         </div>
       )}
-    </main>
+    </div>
   )
 }

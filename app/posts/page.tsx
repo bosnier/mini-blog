@@ -16,12 +16,12 @@ export default async function Page(props: { searchParams?: Promise<PostsSearchPa
   const truncatedPosts = posts.map((post) => ({ ...post, content: post.content.slice(0, 500) }))
 
   return (
-    <main className="px-4 flex flex-col gap-5 max-w-3xl mx-auto w-full pb-8">
+    <div className="px-4 flex flex-col gap-5">
       <h1 className="text-2xl font-bold font-serif">All posts</h1>
 
       <PostsFilters filterAuthor />
 
       {truncatedPosts.length ? truncatedPosts.map((post) => <Post post={post} key={post.id} />) : "No posts found"}
-    </main>
+    </div>
   )
 }
