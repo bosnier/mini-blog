@@ -21,9 +21,7 @@ export default async function Page(props: { searchParams?: Promise<PostsSearchPa
 
       <PostsFilters filterAuthor />
 
-      {truncatedPosts.map((post) => (
-        <Post post={post} key={post.id} />
-      ))}
+      {truncatedPosts.length ? truncatedPosts.map((post) => <Post post={post} key={post.id} />) : "No posts found"}
     </main>
   )
 }
