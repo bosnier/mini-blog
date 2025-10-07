@@ -6,6 +6,7 @@ export type PostType = {
   content: string
   author?: User
   createdAt: Date
+  published?: boolean
 }
 
 export type User = {
@@ -30,6 +31,9 @@ export default function Post({ post }: { post: PostType }) {
           </>
         )}
         {post.createdAt.toLocaleString()}
+        {!post.published && (
+          <span className="bg-chart-3 text-xs text-background ms-1 px-1 rounded-sm">unpublished</span>
+        )}
       </span>
     </section>
   )
