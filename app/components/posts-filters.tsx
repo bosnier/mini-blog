@@ -32,6 +32,7 @@ export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean 
     <div className="flex items-center gap-1 flex-wrap">
       <Input
         type="search"
+        name="search"
         placeholder="Find post by title..."
         defaultValue={q || ""}
         onChange={(e) => setQuery(e.target.value)}
