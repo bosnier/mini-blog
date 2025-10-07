@@ -1,11 +1,10 @@
-import Post from "@/app/components/post"
 import PostsFilters from "@/app/components/posts-filters"
-import { parsePostsFilters, PostsSearchParams } from "@/app/lib/posts-filters-utils"
+import { PostsSearchParams } from "@/app/lib/posts-filters-utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { prisma } from "@/prisma"
-import { ImageOff, NotepadText } from "lucide-react"
+import { ImageOff } from "lucide-react"
+import PostsList from "@/app/components/posts-list"
 
-// export default async function Page({ params }: { params: Promise<{ id: string }> }) {
 export default async function Page(props: {
   searchParams?: Promise<PostsSearchParams>
   params: Promise<{ id: string }>
@@ -16,14 +15,10 @@ export default async function Page(props: {
   // TODO should handle not found error
   if (!user) return "not found"
 
-  const searchParams = new URLSearchParams(await props.searchParams)
-  const { q, sort } = parsePostsFilters(searchParams)
-
-  const posts = await prisma.post.findMany({
-    where: { author: { id }, title: { contains: q, mode: "insensitive" } },
-    orderBy: { createdAt: sort === "older" ? "asc" : "desc" },
-  })
-  const truncatedPosts = posts.map((post) => ({ ...post, content: post.content.slice(0, 500) }))
+  const params = new URLSearchParams([
+    ["author", id],
+    ["includeUnpublished", "true"],
+  ])
 
   return (
     <div className="px-4 flex flex-col gap-5">
@@ -38,15 +33,7 @@ export default async function Page(props: {
       </div>
 
       <PostsFilters />
-
-      {truncatedPosts.length ? (
-        truncatedPosts.map((post) => <Post post={post} key={post.id} />)
-      ) : (
-        <div className="flex items-center gap-2 text-muted-foreground justify-center">
-          <NotepadText />
-          No posts
-        </div>
-      )}
+      <PostsList appendSearchParams={params} />
     </div>
   )
 }
