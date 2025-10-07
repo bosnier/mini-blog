@@ -4,9 +4,7 @@ import { prisma } from "@/prisma"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 
-export default async function Home() {
-  // TODO isr
-
+export default async function Page() {
   const posts = await prisma.post.findMany({
     where: { published: true },
     take: 4,
