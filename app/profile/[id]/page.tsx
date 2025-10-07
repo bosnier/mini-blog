@@ -18,6 +18,7 @@ export default async function Page(props: {
   const params = new URLSearchParams([
     ["author", id],
     ["includeUnpublished", "true"],
+    ["truncateContent", "true"],
   ])
 
   return (

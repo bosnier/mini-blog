@@ -7,7 +7,7 @@ export default async function Page() {
       <h1 className="text-2xl font-bold font-serif">All posts</h1>
 
       <PostsFilters filterAuthor />
-      <PostsList />
+      <PostsList appendSearchParams={new URLSearchParams([["truncateContent", "true"]])} />
     </div>
   )
 }
