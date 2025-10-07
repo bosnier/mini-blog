@@ -1,11 +1,11 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Post, { PostType } from "@/app/components/post"
 import { LoaderCircle } from "lucide-react"
 
-export default function PostsList() {
+export default function PostsList({ appendSearchParams }: { appendSearchParams?: URLSearchParams }) {
   const [posts, setPosts] = useState<PostType[]>([])
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
@@ -13,7 +13,11 @@ export default function PostsList() {
 
   const abortController = useRef<AbortController>(undefined)
 
-  const searchParams = useSearchParams()
+  const originalSearchParams = useSearchParams()
+  const searchParams = useMemo(() => {
+    if (!appendSearchParams) return originalSearchParams
+    return new URLSearchParams([...originalSearchParams, ...appendSearchParams])
+  }, [originalSearchParams, appendSearchParams])
   useEffect(() => {
     setHasMore(true)
     setCursor(undefined)
