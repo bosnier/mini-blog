@@ -47,7 +47,7 @@ export default function PostsList({ appendSearchParams }: { appendSearchParams?:
         })
         .finally(() => setLoading(false))
     },
-    [searchParams, loading, hasMore, cursor]
+    [searchParams, loading, hasMore]
   )
 
   const sentinelRef = useRef(null)
@@ -60,7 +60,7 @@ export default function PostsList({ appendSearchParams }: { appendSearchParams?:
     })
     observer.observe(sentinelRef.current)
     return () => observer.disconnect()
-  }, [fetchPosts])
+  }, [fetchPosts, cursor])
 
   return (
     <>
