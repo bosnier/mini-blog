@@ -55,12 +55,12 @@ export default function PostsList({ appendSearchParams }: { appendSearchParams?:
     if (!sentinelRef.current) return
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) fetchPosts(cursor)
+        if (entry.isIntersecting && !loading && hasMore) fetchPosts(cursor)
       })
     })
     observer.observe(sentinelRef.current)
     return () => observer.disconnect()
-  }, [fetchPosts, cursor])
+  }, [fetchPosts, cursor, loading, hasMore])
 
   return (
     <>
