@@ -1,9 +1,16 @@
+import { auth } from "@/auth"
 import { prisma } from "@/prisma"
 import Link from "next/link"
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const session = await auth()
+  const userId = session?.user?.id
+
   const { id } = await params
   const post = await prisma.post.findFirst({ where: { id }, include: { author: true } })
+
+  const userIsAuthor = post?.userId === userId
+  if (!post?.published && !userIsAuthor) return "not authorized"
 
   // TODO should handle not found error
   if (!post) return "not found"
