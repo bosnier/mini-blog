@@ -9,7 +9,7 @@ import { Check, ChevronsUpDown } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { parsePostsFilters, PostsSearchParams } from "@/app/lib/posts-filters-utils"
 import { useEffect, useState } from "react"
-import { useDebounce } from "../lib/hooks/use-debounce"
+import { useDebounce } from "@/app/lib/hooks/use-debounce"
 
 export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean }) {
   const router = useRouter()
