@@ -24,10 +24,12 @@ export default async function Page() {
             Read more
           </Button>
         </Link>
-        <Button variant="outline" className="self-start">
-          <Plus />
-          Write new post
-        </Button>
+        <Link href="/posts/create" className="self-start">
+          <Button variant="outline">
+            <Plus />
+            Write new post
+          </Button>
+        </Link>
       </div>
     </div>
   )

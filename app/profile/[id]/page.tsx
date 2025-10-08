@@ -6,6 +6,7 @@ import { ImageOff, Plus } from "lucide-react"
 import PostsList from "@/app/components/posts-list"
 import { auth } from "@/auth"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default async function Page(props: {
   searchParams?: Promise<PostsSearchParams>
@@ -36,10 +37,12 @@ export default async function Page(props: {
         </Avatar>
         <span className="font-bold text-2xl wrap-break-word overflow-hidden">{user.name}</span>
         {session?.user?.id === id && (
-          <Button className="ms-auto">
-            <Plus />
-            New post
-          </Button>
+          <Link href="/posts/create" className="ms-auto">
+            <Button>
+              <Plus />
+              New post
+            </Button>
+          </Link>
         )}
       </div>
 
