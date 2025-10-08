@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Check, ChevronsUpDown } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { parsePostsFilters, PostsSearchParams } from "@/app/lib/posts-filters-utils"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDebounce } from "@/app/lib/hooks/use-debounce"
 
 export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean }) {
@@ -18,15 +18,20 @@ export default function PostsFilters({ filterAuthor }: { filterAuthor?: boolean 
 
   const { q, author, sort } = parsePostsFilters(searchParams)
 
+  const updateURL = useCallback(
+    (newParams: PostsSearchParams) => {
+      const params = new URLSearchParams(searchParams)
+      Object.entries(newParams).forEach(([name, value]) => (value ? params.set(name, value) : params.delete(name)))
+      router.push(pathname + "?" + params)
+    },
+    [searchParams, pathname, router]
+  )
+
   const [query, setQuery] = useState(q || "")
   const debouncedQuery = useDebounce(query, 300)
-  useEffect(() => updateURL({ q: debouncedQuery }), [debouncedQuery])
-
-  function updateURL(newParams: PostsSearchParams) {
-    const params = new URLSearchParams(searchParams)
-    Object.entries(newParams).forEach(([name, value]) => (value ? params.set(name, value) : params.delete(name)))
-    router.push(pathname + "?" + params)
-  }
+  useEffect(() => {
+    updateURL({ q: debouncedQuery })
+  }, [debouncedQuery, updateURL])
 
   return (
     <div className="flex items-center gap-1 flex-wrap">
