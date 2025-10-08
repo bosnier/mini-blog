@@ -1,5 +1,7 @@
 import { auth } from "@/auth"
+import { Button } from "@/components/ui/button"
 import { prisma } from "@/prisma"
+import { Pencil } from "lucide-react"
 import Link from "next/link"
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -18,11 +20,22 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   return (
     <div className="px-4 flex flex-col gap-2">
       <h2 className="text-2xl font-bold font-serif">{post.title}</h2>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center flex-wrap">
         <Link href={"/profile/" + post.author.id}>{post.author.name}</Link>
-        <span className="self-end ">{post.createdAt.toLocaleString()}</span>
+        {!post.published && (
+          <span className="bg-chart-3 text-xs text-background px-1 rounded-sm me-auto ms-1">unpublished</span>
+        )}
+        <span className="self-end">{post.createdAt.toLocaleString()}</span>
       </div>
-      <span className="">{post.content}</span>
+      {userIsAuthor && (
+        <Link href={"/posts/" + id + "/edit"} className="self-end">
+          <Button>
+            <Pencil />
+            Edit
+          </Button>
+        </Link>
+      )}
+      <span className="whitespace-pre-wrap">{post.content}</span>
     </div>
   )
 }
