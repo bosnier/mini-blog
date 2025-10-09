@@ -1,6 +1,7 @@
 import PostForm from "@/app/components/post-form"
 import { auth } from "@/auth"
 import { prisma } from "@/prisma"
+import { redirect } from "next/navigation"
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -10,7 +11,12 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const post = await prisma.post.findFirst({
     where: { id },
   })
+
   if (!post) return "Post not found"
+
+  if (post.userId !== session.user?.id) {
+    redirect("/posts/" + post.id)
+  }
 
   return (
     <div className="px-4 flex flex-col gap-2">
