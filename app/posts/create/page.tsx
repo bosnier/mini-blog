@@ -1,4 +1,4 @@
-import PostCreationForm from "@/app/components/post-creation-form"
+import PostForm from "@/app/components/post-form"
 import { auth } from "@/auth"
 
 export default async function Page() {
@@ -8,7 +8,7 @@ export default async function Page() {
   return (
     <div className="px-4 flex flex-col gap-2">
       <h2 className="text-2xl font-bold font-serif">Create post</h2>
-      <PostCreationForm />
+      <PostForm initialValues={{ published: true }} />
     </div>
   )
 }

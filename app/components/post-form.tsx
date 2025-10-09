@@ -8,16 +8,44 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { PostFormSchema } from "@/lib/schemas"
-import { createPost } from "@/lib/actions"
+import { createPost, deletePost, updatePost } from "@/lib/actions"
+import { useParams } from "next/navigation"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-export default function PostCreationForm() {
+type PostFormType = z.infer<typeof PostFormSchema>
+
+export default function PostForm({
+  mode = "create",
+  initialValues,
+}: {
+  mode?: "create" | "update"
+  initialValues?: Partial<PostFormType>
+}) {
   const form = useForm({
     resolver: zodResolver(PostFormSchema),
-    defaultValues: { published: true },
+    defaultValues: initialValues as PostFormType,
   })
 
-  function onSubmit(data: z.infer<typeof PostFormSchema>) {
-    createPost(data)
+  const params = useParams()
+  const postId = params.id as string
+
+  function onSubmit(data: PostFormType) {
+    if (mode === "create") createPost(data)
+    else if (mode === "update") updatePost.bind(null, data, postId)()
+  }
+
+  function onDeletePost() {
+    deletePost.bind(null, postId)()
   }
 
   return (
@@ -52,6 +80,7 @@ export default function PostCreationForm() {
           )}
         />
         <div className="flex gap-3 justify-end">
+          {mode === "update" && <DeleteButton onClick={onDeletePost} />}
           <FormField
             control={form.control}
             name="published"
@@ -66,13 +95,33 @@ export default function PostCreationForm() {
               </FormItem>
             )}
           />
-          <FormItem>
-            <FormControl>
-              <Button type="submit">Create</Button>
-            </FormControl>
-          </FormItem>
+          <Button type="submit">{mode === "create" ? "Create" : "Update"}</Button>
         </div>
       </form>
     </Form>
+  )
+}
+
+function DeleteButton({ onClick }: { onClick: React.MouseEventHandler }) {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" type="button" className="me-auto">
+          Delete
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action can't be undone. This will permamently delete this your post.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={onClick}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
