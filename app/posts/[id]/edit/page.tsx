@@ -1,7 +1,12 @@
 import PostForm from "@/app/components/post-form"
 import { auth } from "@/auth"
 import { prisma } from "@/prisma"
+import { Metadata } from "next"
 import { redirect } from "next/navigation"
+
+export const metadata: Metadata = {
+  title: "Edit post",
+}
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()

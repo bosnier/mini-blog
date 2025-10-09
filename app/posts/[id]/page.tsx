@@ -4,6 +4,18 @@ import { prisma } from "@/prisma"
 import { Pencil } from "lucide-react"
 import Link from "next/link"
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const post = await prisma.post.findFirst({
+    where: { id },
+    select: { author: { select: { name: true } } },
+  })
+
+  return {
+    title: (post?.author.name || "Someone") + `'s post`,
+  }
+}
+
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
   const userId = session?.user?.id

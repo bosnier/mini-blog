@@ -8,6 +8,18 @@ import { auth } from "@/auth"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const user = await prisma.user.findFirst({
+    where: { id },
+    select: { name: true },
+  })
+
+  return {
+    title: user?.name || "Profile",
+  }
+}
+
 export default async function Page(props: {
   searchParams?: Promise<PostsSearchParams>
   params: Promise<{ id: string }>

@@ -1,5 +1,10 @@
 import PostForm from "@/app/components/post-form"
 import { auth } from "@/auth"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Create new post",
+}
 
 export default async function Page() {
   const session = await auth()
