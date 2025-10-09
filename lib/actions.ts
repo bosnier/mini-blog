@@ -2,7 +2,6 @@
 
 import z from "zod"
 import { PostFormSchema } from "./schemas"
-import { NextResponse } from "next/server"
 import { prisma } from "@/prisma"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
@@ -12,13 +11,13 @@ type PostFormType = z.infer<typeof PostFormSchema>
 export async function createPost(formData: PostFormType) {
   const validatedFields = PostFormSchema.safeParse(formData)
   if (!validatedFields.success) {
-    return NextResponse.json({ error: "Validation error", details: validatedFields.error }, { status: 400 })
+    return { error: "Validation error", details: validatedFields.error }
   }
 
   const session = await auth()
   const userId = session?.user?.id
   if (!userId) {
-    return NextResponse.json({ error: "You must be authorized to create a post" }, { status: 401 })
+    return { error: "You must be authorized to create a post" }
   }
   // is situation when user not exists in db possible?
 
@@ -33,13 +32,13 @@ export async function createPost(formData: PostFormType) {
 export async function updatePost(formData: PostFormType, postId: string) {
   const validatedFields = PostFormSchema.safeParse(formData)
   if (!validatedFields.success) {
-    return NextResponse.json({ error: "Validation error", details: validatedFields.error }, { status: 400 })
+    return { error: "Validation error", details: validatedFields.error }
   }
 
   const session = await auth()
   const userId = session?.user?.id
   if (!userId) {
-    return NextResponse.json({ error: "You must be authorized to update the post" }, { status: 401 })
+    return { error: "You must be authorized to update the post" }
   }
 
   const userIsAuthor = await prisma.post.findFirst({
@@ -47,7 +46,7 @@ export async function updatePost(formData: PostFormType, postId: string) {
     select: { id: true },
   })
   if (!userIsAuthor) {
-    return NextResponse.json({ error: "You must be the author of this post to update it" }, { status: 401 })
+    return { error: "You must be the author of this post to update it" }
   }
 
   const form = validatedFields.data
@@ -56,7 +55,9 @@ export async function updatePost(formData: PostFormType, postId: string) {
     data: { title: form.title, content: form.content, published: form.published },
   })
 
-  if (!post) return "Post not found"
+  if (!post) {
+    return { error: "Post not found" }
+  }
 
   redirect("/posts/" + postId)
 }
@@ -65,7 +66,7 @@ export async function deletePost(postId: string) {
   const session = await auth()
   const userId = session?.user?.id
   if (!userId) {
-    return NextResponse.json({ error: "You must be authorized to delete the post" }, { status: 401 })
+    return { error: "You must be authorized to delete the post" }
   }
 
   const post = await prisma.post.findFirst({
@@ -73,7 +74,7 @@ export async function deletePost(postId: string) {
     select: { id: true, userId: true },
   })
   if (userId !== post?.userId) {
-    return NextResponse.json({ error: "You must be the author of this post to delete it" }, { status: 401 })
+    return { error: "You must be the author of this post to delete it" }
   }
 
   await prisma.post.delete({
