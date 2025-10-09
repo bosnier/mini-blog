@@ -25,7 +25,14 @@ export async function GET(req: NextRequest) {
       title: { contains: q, mode: "insensitive" },
       author: { id: author },
     },
-    include: { author: true },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      published: true,
+      createdAt: true,
+      author: { select: { id: true, name: true, image: true } },
+    },
     orderBy: [{ createdAt: sort === "older" ? "asc" : "desc" }, { id: "desc" }],
   })
 
