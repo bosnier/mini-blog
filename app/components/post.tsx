@@ -16,11 +16,11 @@ export type User = {
 
 export default function Post({ post }: { post: PostType }) {
   return (
-    <section className="flex flex-col gap-1 items-start">
-      <Link href={"/posts/" + post.id} className="text-lg font-medium line-clamp-2 leading-tight">
+    <section className="flex flex-col gap-1 items-start overflow-hidden">
+      <Link href={"/posts/" + post.id} className="text-lg font-medium line-clamp-2 leading-tight break-words w-full">
         {post.title}
       </Link>
-      <p className="text-sm text-muted-foreground line-clamp-4">{post.content}</p>
+      <p className="text-sm text-muted-foreground line-clamp-4 break-words w-full">{post.content}</p>
       <span className="text-sm text-muted-foreground">
         {post.author && (
           <>

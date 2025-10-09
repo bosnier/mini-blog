@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   return (
     <div className="px-4 flex flex-col gap-2">
-      <h2 className="text-2xl font-bold font-serif">{post.title}</h2>
+      <h2 className="text-2xl font-bold font-serif break-words">{post.title}</h2>
       <div className="flex justify-between items-center flex-wrap">
         <Link href={"/profile/" + post.author.id}>{post.author.name}</Link>
         {!post.published && (
@@ -35,7 +35,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           </Button>
         </Link>
       )}
-      <span className="whitespace-pre-wrap">{post.content}</span>
+      <span className="whitespace-pre-wrap break-words">{post.content}</span>
     </div>
   )
 }
