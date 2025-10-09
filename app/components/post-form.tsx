@@ -114,7 +114,7 @@ function DeleteButton({ onClick }: { onClick: React.MouseEventHandler }) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action can't be undone. This will permamently delete this your post.
+            This action can`t be undone. This will permamently delete this your post.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
