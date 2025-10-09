@@ -31,7 +31,6 @@ export async function createPost(formData: PostFormType) {
 }
 
 export async function updatePost(formData: PostFormType, postId: string) {
-  console.log("🤗🤗🤗")
   const validatedFields = PostFormSchema.safeParse(formData)
   if (!validatedFields.success) {
     return NextResponse.json({ error: "Validation error", details: validatedFields.error }, { status: 400 })
@@ -63,7 +62,6 @@ export async function updatePost(formData: PostFormType, postId: string) {
 }
 
 export async function deletePost(postId: string) {
-  console.log("deleting", postId)
   const session = await auth()
   const userId = session?.user?.id
   if (!userId) {
