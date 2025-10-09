@@ -29,8 +29,7 @@ export default async function Page(props: {
   const { id } = await props.params
 
   const user = await prisma.user.findFirst({ where: { id } })
-  // TODO should handle not found error
-  if (!user) return "not found"
+  if (!user) return <div className="mx-auto text-2xl">User not found</div>
 
   const params = new URLSearchParams([
     ["author", id],
