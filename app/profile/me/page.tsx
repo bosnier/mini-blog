@@ -1,4 +1,4 @@
-import { redirectToOwnProfile } from "@/app/lib/navigation"
+import { redirectToOwnProfile } from "@/lib/navigation"
 
 export default async function Page() {
   await redirectToOwnProfile()

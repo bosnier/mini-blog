@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import Post, { PostType } from "@/app/components/post"
+import Post, { PostType } from "@/components/features/posts/post"
 import { LoaderCircle } from "lucide-react"
 
 export default function PostsList({ appendSearchParams }: { appendSearchParams?: URLSearchParams }) {

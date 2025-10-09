@@ -1,4 +1,4 @@
-import { parsePostsFilters } from "@/app/lib/posts-filters-utils"
+import { parsePostsFilters } from "@/lib/posts-filters-utils"
 import { auth } from "@/auth"
 import { prisma } from "@/prisma"
 import { NextRequest, NextResponse } from "next/server"

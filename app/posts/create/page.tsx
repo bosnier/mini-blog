@@ -1,4 +1,4 @@
-import PostForm from "@/app/components/post-form"
+import PostForm from "@/components/features/posts/post-form"
 import { auth } from "@/auth"
 import { Metadata } from "next"
 

@@ -1,4 +1,4 @@
-import Post from "@/app/components/post"
+import Post from "@/components/features/posts/post"
 import { Button } from "@/components/ui/button"
 import { prisma } from "@/prisma"
 import { Plus } from "lucide-react"

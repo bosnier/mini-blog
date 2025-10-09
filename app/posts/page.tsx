@@ -1,5 +1,5 @@
-import PostsFilters from "@/app/components/posts-filters"
-import PostsList from "@/app/components/posts-list"
+import PostsFilters from "@/components/features/posts/posts-filters"
+import PostsList from "@/components/features/posts/posts-list"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
