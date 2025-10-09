@@ -24,10 +24,9 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const post = await prisma.post.findFirst({ where: { id }, include: { author: true } })
 
   const userIsAuthor = post?.userId === userId
-  if (!post?.published && !userIsAuthor) return "not authorized"
-
-  // TODO should handle not found error
-  if (!post) return "not found"
+  if (!post || (!post?.published && !userIsAuthor)) {
+    return <div className="mx-auto text-2xl">Post not found</div>
+  }
 
   return (
     <div className="px-4 flex flex-col gap-2">
