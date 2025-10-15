@@ -27,7 +27,6 @@ export default function PostsList({ appendSearchParams }: { appendSearchParams?:
 
   const fetchPosts = useCallback(
     (cursor?: string) => {
-      if (!hasMore || loading) return
       setLoading(true)
       abortController.current = new AbortController()
       const query = new URLSearchParams(searchParams.toString())
@@ -39,7 +38,7 @@ export default function PostsList({ appendSearchParams }: { appendSearchParams?:
           const fetchedPosts = r.posts.map((p) => ({ ...p, createdAt: new Date(p.createdAt) }))
           setPosts((prev) => [...prev, ...fetchedPosts])
           setCursor(r.posts[r.posts.length - 1]?.id)
-          setHasMore(r.hasMore || r.posts.length !== 0)
+          setHasMore(r.hasMore)
         })
         .catch((e: Error) => {
           if (e.name === "AbortError") return
@@ -47,7 +46,7 @@ export default function PostsList({ appendSearchParams }: { appendSearchParams?:
         })
         .finally(() => setLoading(false))
     },
-    [searchParams, loading, hasMore]
+    [searchParams]
   )
 
   const sentinelRef = useRef(null)
@@ -61,6 +60,10 @@ export default function PostsList({ appendSearchParams }: { appendSearchParams?:
     observer.observe(sentinelRef.current)
     return () => observer.disconnect()
   }, [fetchPosts, cursor, loading, hasMore])
+
+  useEffect(() => {
+    return () => abortController.current?.abort()
+  }, [])
 
   return (
     <>
